@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="BackEndMS.Controls.PagingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS.Controls"
+    xmlns:helper="using:BackEndMS.Helpers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10 0 0 0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource AppBarBorderThemeBrush}" >
+    <StackPanel Orientation="Horizontal"  Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="describTxb" VerticalAlignment="Center">
+            <Run Text="共 "/>
+            <Run Text="{x:Bind searchModel.TotalCount,Mode=OneWay}"/>
+            <Run Text=" 条记录，每页 "/>
+            </TextBlock>
+            <ComboBox  x:Name="combobox" ItemsSource="{x:Bind pageSizeList,Mode=OneWay}" SelectedValue="{x:Bind searchModel.PageSize, Mode=TwoWay}"
+                       SelectionChanged="ComboBox_SelectionChanged"/>
+            <TextBlock VerticalAlignment="Center">
+            <!--<Run Text="{x:Bind searchModel.PageSize,Mode=OneWay}"/>-->
+            <Run Text="条，共 "/>
+            <Run Text="{x:Bind searchModel.PageCount,Mode=OneWay}"/>
+            <Run Text=" 页"/>
+        </TextBlock>
+        <Button x:Name="firstPage"  Content="首页" Click="firstPage_Click"/>
+        <Button x:Name="previousPage" Content="上一页"  Click="previousPage_Click" IsEnabled="{x:Bind searchModel.isFirst,Converter={StaticResource BooleanConverter},Mode=OneWay}"/>
+        <TextBlock Text="第 " />
+        <TextBox x:Name="pageIndexTb" Text="{x:Bind searchModel.PageIndex,Mode=TwoWay}"   KeyUp="pageIndexTb_KeyUp"/>
+        <TextBlock Text="页" />
+        <Button x:Name="nextPage" Content="下一页" Click="nextPage_Click" IsEnabled="{x:Bind searchModel.isLast,Converter={StaticResource BooleanConverter},Mode=OneWay}"/>
+        <Button x:Name="lastPage"  Content="尾页" Click="lastPage_Click" />
+        <Button x:Name="jump" Content="跳转" Click="jump_Click"/>
+    </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,172 @@
+﻿<UserControl
+    x:Class="BackEndMS.Controls.OrderTableControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:BackEndMS.Models"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter  Property="BorderThickness" Value="1 1 0 1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="20" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource AppBarBorderThemeBrush}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="firstColumn" Grid.Column="0" BorderThickness="1 1 0 1">
+                <CheckBox x:Name="selectAllCB"  Checked="selectAll_Checked" Unchecked="selectAll_Unchecked" HorizontalContentAlignment="Center"/>
+            </Border>
+            <Border Grid.Column="1" BorderThickness="1 1 0 1">
+                <TextBlock  Text="指令来源"/>
+            </Border>
+            <Border Grid.Column="2" BorderThickness="1 1 0 1">
+                <TextBlock  Text="日期"/>
+            </Border>
+            <Border Grid.Column="3" BorderThickness="1 1 0 1">
+                <TextBlock  Text="指令序号"/>
+            </Border>
+            <Border Grid.Column="4" BorderThickness="1 1 0 1">
+                <TextBlock  Text="类别"/>
+            </Border>
+            <Border Grid.Column="5" BorderThickness="1 1 0 1">
+                <TextBlock  Text="标签"/>
+            </Border>
+            <Border Grid.Column="6" BorderThickness="1 1 0 1">
+                <TextBlock  Text="处理方式"/>
+            </Border>
+            <Border Grid.Column="7" BorderThickness="1 1 0 1">
+                <TextBlock  Text="指令内容"/>
+            </Border>
+            <Border Grid.Column="8" BorderThickness="1 1 0 1">
+                <TextBlock  Text="指令详情"/>
+            </Border>
+            <Border Grid.Column="9" BorderThickness="1 1 0 1">
+                <TextBlock Text="Cela建议统计"/>
+            </Border>
+            <Border Grid.Column="10" BorderThickness="1 1 1 1">
+            </Border>
+        </Grid>
+        <GridView x:Name="gridview" ItemsSource="{x:Bind OrderList,Mode=OneWay}" IsItemClickEnabled="false" IsSwipeEnabled="false" SelectionMode="Single" Grid.Row="1">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:Order">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter  Property="BorderThickness" Value="1 0 0 1" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="FontWeight" Value="Normal" />
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="MaxHeight" Value="100"/>
+                                <Setter Property="TextTrimming" Value="WordEllipsis"/>
+                                <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="firstColumn" Grid.Column="0" >
+                            <CheckBox x:Name="ItemSelectCB" IsChecked="{x:Bind selected,Mode=TwoWay}" Click="ItemSelectCB_Click"/>
+                        </Border>
+                        <Border Grid.Column="1">
+                            <TextBlock Text="{x:Bind Source,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="2">
+                            <TextBlock Text="{x:Bind ModifyDate,Converter={StaticResource DateTimeConverter}, Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="3">
+                            <TextBlock Text="{x:Bind OrderId,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="4">
+                            <TextBlock Text="{x:Bind Class1,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="5">
+                            <TextBlock Text="{x:Bind Labels,Mode=OneWay, Converter={StaticResource ArrayToStringConverter}}"/>
+                        </Border>
+                        <Border Grid.Column="6">
+                            <TextBlock Text="{x:Bind Strategy,Mode=OneWay, Converter={StaticResource ArrayToStringConverter}}"/>
+                        </Border>
+                        <Border Grid.Column="7">
+                            <TextBlock Text="{x:Bind TextContent,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="8">
+                            <TextBlock Text="{x:Bind TextDetail,Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Column="9">
+                            <TextBlock Text="{x:Bind CelaCounts,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="10" BorderThickness="1 0 1 1">
+                            <Button Click="Modify_Click">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Edit" />
+                                </Button.Content>
+                            </Button>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</UserControl>

@@ -1,0 +1,152 @@
+﻿<ContentDialog
+    x:Class="BackEndMS.Controls.OrderContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:BackEndMS.Models"
+    mc:Ignorable="d"
+    Title="新增指令"
+    PrimaryButtonText="保存"
+    SecondaryButtonText="取消"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    d:DesignHeight="700"
+    d:DesignWidth="700">
+    <ContentDialog.Resources>
+        <DataTemplate x:Key="UploadHeaderTemplate">
+            <Button Click="SelectImage" Margin="0" Padding="0" Background="Transparent">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="headerTB" Text="{Binding}" />
+                        <SymbolIcon x:Name="uploadBtn" Symbol="Upload"  Margin="0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+        <!--<DataTemplate x:Key="LabelTemplate">
+            <Grid Background="AliceBlue" VariableSizedWrapGrid.ColumnSpan="{Binding gridTB.Text,Converter={StaticResource StringLengthConverter},Mode=OneWay}">
+                <TextBox x:Name="gridTB"  Text="{Binding DataContext,Mode=TwoWay}" />
+            </Grid>
+        </DataTemplate>-->
+        <DataTemplate x:Key="selectItemTemplate">
+            <!--<StackPanel Orientation="Horizontal">-->
+            <!--<CheckBox IsChecked="{Binding IsSelected,Mode=OneWay}" Margin="5 0" Padding="0"/>-->
+            <TextBlock Text="{Binding Text,Mode=OneWay}"/>
+            <!--</StackPanel>-->
+        </DataTemplate>
+        <DataTemplate x:Key="imageUploadItemTemplate">
+            <RelativePanel>
+                <Image x:Name="tempImage" Stretch="Uniform" Width="100" Height="100" Source="{Binding ImageSource,Mode=OneWay}"/>
+                <TextBlock x:Name="imageTitle" TextWrapping="Wrap" Text="{Binding ImageTitle,Mode=TwoWay}" Tapped="imageTitle_Tapped" 
+                   RelativePanel.Below="tempImage" RelativePanel.AlignLeftWith="tempImage" RelativePanel.AlignRightWith="tempImage">
+                    <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                    <TextBox x:Name="MyTextBox" Text="{Binding imageTitle.Text, Mode=TwoWay}"/>
+                    </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </TextBlock>
+            </RelativePanel>
+        </DataTemplate>
+    </ContentDialog.Resources>
+    <ScrollViewer HorizontalAlignment="Stretch">
+        <Grid Background="{StaticResource AppBarBackgroundThemeBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+            <Grid.Resources>
+                <Style TargetType="ComboBox">
+                    <Setter Property="MinWidth" Value="150"/>
+                </Style>
+                <Style TargetType="Grid">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Header="指令来源：" Grid.Row="0" Grid.Column="0" x:Name="OrderSourceCB" ItemsSource="{x:Bind OrderSourceList,Mode=OneWay}" SelectedItem="{x:Bind ViewModel.Source,Mode=TwoWay}"  />
+            <TextBox Header="指令序号：" Grid.Row="0" Grid.Column="1" x:Name="orderIdTB" Text="{x:Bind ViewModel.OrderId,Mode=TwoWay}" />
+            <ComboBox Header="类别："  ItemsSource="{x:Bind CategoryList,Mode=OneWay}" SelectedItem="{x:Bind ViewModel.Class1,Mode=TwoWay}"  Grid.Row="1"/>
+            <GridView x:Name="labelGV" ItemsSource="{x:Bind ViewModel.TempLables,Mode=OneWay}" Grid.Row="2" Grid.ColumnSpan="2"
+                  ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <GridView.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="标签" Style="{StaticResource SubtitleTextBlockStyle}" />
+                            <FontIcon FontSize="14" Glyph="&#xE710;" Tapped="FontIcon_Tapped" Margin="0 10"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.HeaderTemplate>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:TempLable">
+                        <TextBox x:Name="gridTB"  Text="{x:Bind Text,Mode=TwoWay}" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+
+            </GridView>
+            <StackPanel Orientation="Vertical" Grid.Row="3">
+                <TextBlock Text="处理方式：" />
+                <ListView x:Name="StrategyLV" ItemsSource="{x:Bind OrderStrategyList,Mode=OneWay}" IsMultiSelectCheckBoxEnabled="True"
+                          SelectedItem="{x:Bind}" SelectionMode="Multiple" MaxHeight="150"/>
+            </StackPanel>
+
+            <!--<ComboBox Header="处理方式：" ItemsSource="{x:Bind OrderStrategyList,Mode=OneWay}" 
+                       SelectionChanged="ComboBox_SelectionChanged"
+                      Grid.Row="3"  ItemTemplate="{StaticResource selectItemTemplate}"/>-->
+            <RichEditBox Header="指令内容" x:Name="textContentEB"  Grid.Row="4" MinHeight="100" Grid.ColumnSpan="2"/>
+            <GridView x:Name="fileContentGV" Grid.Row="5" Grid.ColumnSpan="2" ItemsSource="{x:Bind ViewModel.UploadFileContents,Mode=OneWay}"
+                      HeaderTemplate="{StaticResource UploadHeaderTemplate}" Header="上传指令内容图片" 
+                     ItemTemplate="{StaticResource imageUploadItemTemplate}">
+            </GridView>
+            <RichEditBox Header="指令详情：" x:Name="textDetailEB"  Grid.Row="6" Grid.ColumnSpan="2"/>
+            <GridView x:Name="fileDetailGV" Grid.Row="7" Grid.ColumnSpan="2" Header="上传指令详情图片" 
+                      ItemsSource="{x:Bind ViewModel.UploadFileDetails,Mode=OneWay}" HeaderTemplate="{StaticResource UploadHeaderTemplate}"  
+                      ItemTemplate="{StaticResource imageUploadItemTemplate}" >
+            </GridView>
+            <GridView x:Name="BaiduActionsGV" Grid.Row="8" Grid.ColumnSpan="2" Header="上传截图" 
+                      ItemsSource="{x:Bind ViewModel.UploadBaiduActions,Mode=OneWay}" HeaderTemplate="{StaticResource UploadHeaderTemplate}"  
+                      ItemTemplate="{StaticResource imageUploadItemTemplate}">
+            </GridView>
+            <ListView x:Name="celaListview" ItemsSource="{x:Bind ViewModel.CelaExplains,Mode=OneWay}" 
+                      Grid.Row="9" Grid.ColumnSpan="2" SelectionMode="None">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Cela建议" Style="{StaticResource SubtitleTextBlockStyle}" />
+                            <FontIcon FontSize="14" Glyph="&#xE710;" Tapped="Cela_FontIcon_Tapped" Margin="10 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:CelaExplain">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" Grid.Row="0" >
+                                <TextBlock Text="处理方式：" />
+                                <ListView  ItemsSource="{x:Bind CelaStrategyList,Mode=OneWay}" 
+                                 SelectedItem="{x:Bind}" SelectionMode="Multiple" MaxHeight="100" IsMultiSelectCheckBoxEnabled="True" SelectionChanged="StrategyLV_SelectionChanged"/>
+                            </StackPanel>
+                            <TextBox Text="{x:Bind Strategy,Mode=OneWay}" Grid.Row="0" Visibility="Collapsed"/>
+                            <RichEditBox Header="指令内容" x:Name="itemEB"  Grid.Row="1" MinHeight="100" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ScrollViewer>
+</ContentDialog>

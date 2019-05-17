@@ -1,0 +1,189 @@
+﻿<UserControl
+    x:Class="BackEndMS.Controls.tableControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS.Controls"
+    xmlns:model="using:BackEndMS.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter  Property="BorderThickness" Value="1 0 0 1" />
+            <Setter Property="Background" Value="{StaticResource AppBarBorderThemeBrush}" />
+            <Setter Property="MinHeight" Value="30" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="IsTextSelectionEnabled" Value="True"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.ColumnSpan="8" BorderThickness="1">
+                <TextBlock HorizontalAlignment="Center" TextAlignment="DetectFromContent">
+                    <Run Text="数据统计：RequestID： " />
+                    <Run Text="{x:Bind ViewModel.RequestId,Mode=OneWay}" />
+                    <Run Text="， 关键词："/>
+                     <Run Text="{x:Bind ViewModel.KeywordsCount,Mode=OneWay}"/>
+                    <Run Text="组，url："/>
+                     <Run Text="{x:Bind ViewModel.UrlCount,Mode=OneWay}"/>
+                    <Run Text="组，QS："/>
+                     <Run Text="{x:Bind ViewModel.QsCount,Mode=OneWay}"/>
+                    <Run Text="组，AS："/>
+                    <Run Text="{x:Bind ViewModel.AsCount,Mode=OneWay}"/>
+                    <Run Text="组，PQS："/>
+                    <Run Text="{x:Bind ViewModel.PQsCount,Mode=OneWay}"/>
+                       <Run Text="组，PIQS："/>
+                    <Run Text="{x:Bind ViewModel.PIQsCount,Mode=OneWay}"/>
+                       <Run Text="组，Domain：" /> 
+                    <Run Text="{x:Bind ViewModel.DomainsCount,Mode=OneWay}"/>
+                       <Run Text="组" />
+                </TextBlock>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0">
+                <TextBlock Text="关键词"/>
+            </Border>
+            <Border Grid.Column="1">
+                <TextBlock Text="内容"/>
+            </Border>
+            <Border Grid.Column="2">
+                <TextBlock Text="标识"/>
+            </Border>
+            <Border Grid.Column="3">
+                <TextBlock Text="操作人员"/>
+            </Border>
+            <Border Grid.Column="4">
+                <TextBlock Text="操作时间"/>
+            </Border>
+            <Border Grid.Column="5">
+                <TextBlock Text="是否过期"/>
+            </Border>
+            <Border Grid.Column="6" >
+                <TextBlock Text="状态"/>
+            </Border>
+            <Border Grid.Column="7" BorderThickness="1 0 1 1">
+                <TextBlock Text="当前提交"/>
+            </Border>
+        </Grid>
+        <GridView x:Name="gridview" ItemsSource="{x:Bind ViewModel.Querys,Mode=OneWay}" IsItemClickEnabled="false" IsSwipeEnabled="false" SelectionMode="Single" Grid.Row="2">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="model:PageQueryEntry">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter  Property="BorderThickness" Value="1 0 0 1" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="FontWeight" Value="Normal" />
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="firstColumn" Grid.Column="0" >
+                            <TextBlock Text="{x:Bind Keywords,Mode=OneWay}" Visibility="{x:Bind isFirst,Mode=OneWay,Converter={StaticResource VisibleIfTrue}}"/>
+                        </Border>
+                        <Border Grid.Column="1">
+                            <TextBlock Text="{x:Bind Content,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="2">
+                            <TextBlock Text="{x:Bind Flag,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="3">
+                            <TextBlock Text="{x:Bind Operator,Mode=OneWay}"/>
+                        </Border>
+                        <Border Grid.Column="4">
+                            <TextBlock Text="{x:Bind ModifyDate,Mode=OneWay,Converter={StaticResource DateTimeConverter}}"/>
+                        </Border>
+                        <Border Grid.Column="5">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="有效" Visibility="{x:Bind IsExpire,Mode=OneWay,Converter={StaticResource CollapseIfTrue}}"/>
+                                <Button HorizontalAlignment="Center" Content="已过期" BorderThickness="0"  Background="Red"
+                                        Visibility="{x:Bind IsExpire,Mode=OneWay,Converter={StaticResource VisibleIfTrue}}" FocusVisualPrimaryBrush="Transparent">
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="UnBlock" Click="MenuFlyoutItem_Click"/>
+                                            <MenuFlyoutSubItem Text="Block">
+                                                <MenuFlyoutItem Text="永久" Click="MenuFlyoutItem_Click"/>
+                                                <MenuFlyoutItem Text="一个月" Click="MenuFlyoutItem_Click"/>
+                                                <MenuFlyoutItem Text="三个月" Click="MenuFlyoutItem_Click"/>
+                                            </MenuFlyoutSubItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                            
+                        </Border>
+                        <Border Grid.Column="6">
+                            <TextBlock Text="{x:Bind Status,Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Column="7" BorderThickness="1 0 1 1">
+                            <TextBlock Text="{x:Bind SubmitTo,Converter={StaticResource ArrayToStringConverter},Mode=OneWay}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+    </Grid>
+</UserControl>

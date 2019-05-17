@@ -1,0 +1,108 @@
+﻿<Page
+    x:Class="BackEndMS.PersonalCenter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS"
+    xmlns:control="using:BackEndMS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="rootPanel">
+        <Grid.Resources>
+            <Style TargetType="StackPanel">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <!--<Setter Property="PlaceholderForeground" Value="LightGray"/>-->
+                <Setter Property="Padding" Value="10 5" />
+                <Setter Property="MinWidth" Value="400" />
+            </Style>
+            <Style TargetType="PasswordBox">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Padding" Value="10 5" />
+                <Setter Property="MinWidth" Value="400" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style TargetType="Button" x:Key="submitBarBtn">
+                <Setter Property="Background" Value="{StaticResource ButtonBackgroundThemeBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource TextBoxButtonForegroundThemeBrush}" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.RowSpan="3" Margin="20">
+            <AppBarButton x:Name="GoBackBtn" Icon="Back" Label="返回" Click="GoBackBtn_Click"/>
+            <!--<TextBlock Text="{Binding ElementName=NicknameTb,Path=Text,Mode=OneWay}"/>-->
+            <!--<PersonPicture  DisplayName="{Binding ElementName=NicknameTb,Path=Text,Mode=OneWay}"/>-->
+            <Grid Width="100" Height="100">
+                <Ellipse Stretch="Uniform" Fill="LightBlue" Stroke="Black"/>
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" FontSize="40"/>
+            </Grid>
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="{x:Bind Personalinfo.Role,Converter={StaticResource ListToStringConverter}}" />
+                <Run Text="{x:Bind Personalinfo.Nickname}"  />
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" >
+            <Border Background="LightBlue" HorizontalAlignment="Stretch">
+                <TextBlock Text="App 信息" Style="{StaticResource FlyoutPickerTitleTextBlockStyle}" VerticalAlignment="Center" Padding="10"/>
+            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                <TextBox Header="用户名:" x:Name="usernameTb" Text="{x:Bind Personalinfo.Username}" IsEnabled="False"  />
+            </StackPanel>
+            <RelativePanel>
+                <TextBox Header="昵称:" x:Name="NicknameTb" Text="{x:Bind Personalinfo.Nickname,Mode=TwoWay}" IsEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True"/>
+                <Button Click="AppBarButton_Click" RelativePanel.AlignBottomWith="NicknameTb" RelativePanel.RightOf="NicknameTb">
+                    <SymbolIcon Symbol="Edit" />
+                </Button>
+            </RelativePanel>
+            <RelativePanel>
+                <TextBox Header="邮箱:" x:Name="EmailTb"  Text="{x:Bind Personalinfo.Email,Mode=TwoWay}" IsEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True"/>
+                <Button Click="AppBarButton_Click" RelativePanel.AlignBottomWith="EmailTb" RelativePanel.RightOf="EmailTb">
+                    <SymbolIcon Symbol="Edit" />
+                </Button>
+            </RelativePanel>
+            <RelativePanel>
+                <PasswordBox Header="密码" x:Name="passwordpb" Password="{x:Bind Personalinfo.Password,Mode=TwoWay}" IsEnabled="False" RelativePanel.AlignLeftWithPanel="True"/>
+                <Button Click="AppBarButton_Click" RelativePanel.AlignBottomWith="passwordpb" RelativePanel.RightOf="passwordpb">
+                    <SymbolIcon Symbol="Edit" />
+                </Button>
+                <PasswordBox Header="确认密码" x:Name="confirmpasswordpb" Password="" Visibility="{Binding ElementName=passwordpb,Path=IsEnabled,Converter={StaticResource VisibleIfTrue},Mode=OneWay}" 
+                             RelativePanel.Below="passwordpb" RelativePanel.AlignLeftWith="passwordpb" RelativePanel.AlignRightWith="passwordpb"/>
+            </RelativePanel>
+           
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" >
+            <Border Background="LightBlue" HorizontalAlignment="Stretch">
+                <TextBlock Text="STC网站信息" Style="{StaticResource FlyoutPickerTitleTextBlockStyle}" VerticalAlignment="Center" Padding="10"/>
+            </Border>
+            <RelativePanel>
+                <TextBox Header="STC用户名:" x:Name="stcusernameTb" Text="{x:Bind Personalinfo.StcUser.Username,Mode=TwoWay}" IsEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True"/>
+                <Button Click="AppBarButton_Click" RelativePanel.AlignBottomWith="stcusernameTb" RelativePanel.RightOf="stcusernameTb">
+                    <SymbolIcon Symbol="Edit" />
+                </Button>
+            </RelativePanel>
+            <RelativePanel>
+                <PasswordBox Header="STC密码:" x:Name="stcpasswordpb" Password="{x:Bind Personalinfo.StcUser.Password,Mode=TwoWay}" IsEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True"/>
+                <Button Click="AppBarButton_Click" RelativePanel.AlignBottomWith="stcpasswordpb" RelativePanel.RightOf="stcpasswordpb">
+                    <SymbolIcon Symbol="Edit" />
+                </Button>
+            </RelativePanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1"  MinHeight="100" VerticalAlignment="Center">
+            <Button x:Name="SubmitBtn" Content="提交" Click="Submit_Click" Margin="0 0 20 0" Style="{StaticResource submitBarBtn}" IsEnabled="False"/>
+            <Button  x:Name="CancelBtn" Content="取消" Click="Cancel_Click" Style="{StaticResource submitBarBtn}" IsEnabled="False"/>
+        </StackPanel>
+    </Grid>
+</Page>

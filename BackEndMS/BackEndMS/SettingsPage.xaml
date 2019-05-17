@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="BackEndMS.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition />
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <!--<VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="contentSV.Padding" Value="14,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>-->
+        <ScrollViewer
+            x:Name="contentSV"
+            Grid.Row="1"
+            Padding="20,0,0,0"
+            IsTabStop="False"
+            UseSystemFocusVisuals="False"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto">
+            <StackPanel HorizontalAlignment="Left">
+                <AppBarButton x:Name="BackBtn" Icon="Back" Label="返回" Click="BackBtn_Click" />
+                <TextBlock
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="0,4,0,0"
+                    FontWeight="Normal"
+                    Text="Theme Mode" />
+                <StackPanel x:Name="ThemePanel" Margin="0,10,0,0">
+                    <RadioButton Tag="Light" Checked="OnThemeRadioButtonChecked" Content="Light"/>
+                    <RadioButton Tag="Dark" Checked="OnThemeRadioButtonChecked" Content="Dark" />
+                    <RadioButton Tag="Default" Checked="OnThemeRadioButtonChecked" Content="Use system setting" />
+                </StackPanel>
+                <TextBlock
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="0,4,0,0"
+                    FontWeight="Normal"
+                    Text="Web Service APi Url" />
+                <StackPanel x:Name="WebAPiPanel" Margin="0,10,0,0">
+                    <RadioButton Tag="NormalServiceUrl" Checked="OnWebAPiRadioButtonChecked" Content="https://bms.mmais.com.cn/api/v1/" />
+                    <RadioButton Tag="TestServiceUrl" Checked="OnWebAPiRadioButtonChecked"  Content="http://10.169.8.208:2330/bms/api/v1/" />
+                </StackPanel>
+                <!--<TextBlock
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="0,4,0,0"
+                    FontWeight="Normal"
+                    Text="Bing Search Url" />
+                <StackPanel x:Name="BingSearchPanel" Margin="0,10,0,0">
+                    <RadioButton Tag="ChinaBingUrl"  Content="https://bms.mmais.com.cn/api/v1/" />
+                    <RadioButton Tag="GlobalBingUrl"  Content="http://10.169.8.208:2330/bms/api/v1/" />
+                </StackPanel>-->
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

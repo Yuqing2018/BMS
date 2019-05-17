@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="BackEndMS.UserIndex"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS"
+    xmlns:control="using:BackEndMS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"  Margin="10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource AppBarBackgroundThemeBrush}">
+            <CommandBar   DefaultLabelPosition="Right"  HorizontalAlignment="Left" Background="Transparent">
+                <AppBarButton x:Name="AddUserBtn" Icon="AddFriend" Label="新增"  Click="AddUserBtn_Click"/>
+                <!--<AppBarButton x:Name="EditUserBtn" Icon="Edit" Label="修改" Click="EditUserBtn_Click"/>-->
+                <AppBarButton x:Name="DeleteUserBtn" Icon="Delete"  Label="删除" Click="DeleteUserBtn_Click"/>
+                <AppBarButton x:Name="EnableUserBtn" Icon="DisableUpdates"  Label="停用/启用" Click="EnableUserBtn_Click"/>
+            </CommandBar>
+        </Grid>
+        <control:UserTableControl x:Name="userTableControl"  Grid.Row="1"  EditClicked="userTableControl_EditClicked"/>
+    </Grid>
+</Page>

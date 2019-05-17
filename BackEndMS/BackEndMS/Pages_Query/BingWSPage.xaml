@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="BackEndMS.BingWSPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:BackEndMS.Models"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="MinWidth" Value="150" />
+            <Setter Property="Margin" Value="5 0"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5 0" />
+            </Style>
+            <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="150" />
+        </Style>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource AppBarBorderThemeBrush}"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="10 0"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <DataTemplate x:Key="ResultItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Content,Mode=OneWay}"  Margin="0 0 10 0" Loaded="BingWSLv_Loaded"/>
+                <TextBlock Text="{Binding BlockDate,Mode=OneWay,Converter={StaticResource DateTimeConverter}}" 
+                           Visibility="{Binding IsBlock,Mode=OneWay,Converter={StaticResource VisibleIfTrue}}" Margin="0 0 10 0"/>
+                <TextBlock Text="{Binding Operator,Mode=OneWay}" Visibility="{Binding IsBlock,Mode=OneWay,Converter={StaticResource VisibleIfTrue}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" BorderThickness="1" Padding="0 10">
+            <TextBlock Text="关键词:" />
+            <TextBox  x:Name="keywordsTB" Text="{x:Bind keywords,Mode=TwoWay}"  MinWidth="150" KeyUp="searchTb_KeyUp"/>
+            <TextBlock Text="RequestID:" />
+            <TextBox x:Name="requestIDTB" Text="{x:Bind RequestId,Mode=TwoWay}"  MinWidth="150"/>
+            <TextBlock Text="搜索层级:" />
+            <ComboBox x:Name="levelCB" ItemsSource="{x:Bind LevelList,Mode=OneWay}" SelectedItem="{x:Bind level,Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" BorderThickness="0 2 0 0">
+            <TextBlock Text="搜索类别:"/>
+            <GridView x:Name="typeGV" ItemsSource="{x:Bind FlagList,Mode=OneTime}" SelectedItem="{x:Bind type,Mode=TwoWay}" SelectionMode="Single" Margin="0">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:QueryEntryFlag">
+                        <RadioButton x:Name="typeRB" Content="{Binding}" Click="typeRB_Click" Loaded="typeRB_Loaded" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0 10 0 0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </GridView>
+            <Button x:Name="searchBtn" Content="搜索" Click="searchBtn_Click" />
+        </StackPanel>
+        <ListView Header="搜索结果：" x:Name="BingWSLv" BorderThickness="0 2 0 0" Background="{StaticResource AppBarBackgroundThemeBrush}"
+                  ItemsSource="{x:Bind ViewModel,Mode=OneWay}" ItemTemplate="{StaticResource ResultItemTemplate}" IsMultiSelectCheckBoxEnabled="True" 
+                 SelectionMode="Multiple"  Grid.Row="2" />
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Stretch" >
+            <TextBlock Text="有效期限：" />
+            <ComboBox ItemsSource="{x:Bind ValidDaysList,Mode=OneWay}" SelectedItem="{x:Bind ValidDays,Mode=TwoWay}"/>
+            <Button x:Name="SubmitBtn" Content="提交" Click="SubmitBtn_Click" HorizontalAlignment="Center"/>
+        </StackPanel>
+        
+    </Grid>
+</Page>

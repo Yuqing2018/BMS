@@ -1,0 +1,2 @@
+MainPackage=C:\work\BackendManagementSystemProjectOfContentTeam\BackEndMS\BackEndMS\bin\x64\Release\BackEndMS_1.1.5.0_x64.appx
+SymbolPackage=C:\work\BackendManagementSystemProjectOfContentTeam\AppPackages\BackEndMS_1.1.5.0_Test\BackEndMS_1.1.5.0_x64.appxsym

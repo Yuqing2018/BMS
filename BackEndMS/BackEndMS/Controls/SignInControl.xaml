@@ -1,0 +1,91 @@
+﻿<UserControl
+    x:Class="BackEndMS.Controls.SignInControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:BackEndMS.Models"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <Grid x:Name="rootPanel"  Background="{StaticResource TKMaskColorBrush}" >
+        <Grid x:Name="contentGrid" Background="{StaticResource AppBarBorderThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="400" MinHeight="500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock x:Name="captionTb" Text="添加用户" FontSize="20" HorizontalAlignment="Center"/>
+            <Rectangle Height="2" Fill="AliceBlue" HorizontalAlignment="Stretch" />
+                <TextBlock x:Name="subtipsTb" Text="Enter the user information to add " FontStyle="Italic" Opacity="0.5" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <TextBlock Text="用户名:" HorizontalAlignment="Right" Margin="10" Grid.Row="1" Grid.Column="0"/>
+        <RelativePanel  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0">
+            <TextBox x:Name="usernameTb" Text="{x:Bind Userinfo.Username,Mode=TwoWay}"  RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="tb1"/>
+            <TextBlock x:Name="tb1" Text="*" Foreground="Red" RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+        <TextBlock Text="昵称:" HorizontalAlignment="Right" Margin="10" Grid.Row="2" Grid.Column="0"/>
+        <RelativePanel  Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0" >
+            <TextBox x:Name="nicknameTb" Text="{x:Bind Userinfo.Nickname,Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="tb2"/>
+            <TextBlock x:Name="tb2" Text="*" Foreground="Red" RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+          
+        <TextBlock Text="密码:" HorizontalAlignment="Right" Margin="10" Grid.Row="3" Grid.Column="0"/>
+        <RelativePanel VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Margin="0 0 20 0">
+                <PasswordBox x:Name="passwordpb" Password="{x:Bind Userinfo.Password,Mode=TwoWay}"  RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="tb3"/>
+            <TextBlock x:Name="tb3" Text="*" Foreground="Red" RelativePanel.AlignRightWithPanel="True"/>
+            <!--<TextBlock x:Name="statusText" Margin="10" HorizontalAlignment="Left" />-->
+        </RelativePanel>
+        <TextBlock Text="确认密码:" HorizontalAlignment="Right" Margin="10" Grid.Row="4" Grid.Column="0"/>
+        <RelativePanel VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="0 0 20 0">
+            <PasswordBox x:Name="confirmpasswordpb" Password="" RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="tb4"/>
+            <TextBlock x:Name="tb4" Text="*" Foreground="Red" RelativePanel.AlignRightWithPanel="True"/>
+            <!--<TextBlock x:Name="confirmStatusText" Margin="10" HorizontalAlignment="Left" />-->
+        </RelativePanel>
+        <TextBlock Text="STC用户名:" HorizontalAlignment="Right" Margin="10" Grid.Row="5" Grid.Column="0"/>
+        <RelativePanel  Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0">
+                <TextBox x:Name="STC_UserNameTB" Text="{x:Bind Userinfo.StcUser.Username,Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="tb5"/>
+            <TextBlock x:Name="tb5" Text="*" Foreground="Red" RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+            <TextBlock Text="STC密码:" HorizontalAlignment="Right" Margin="10" Grid.Row="6" Grid.Column="0"/>
+            <RelativePanel  VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" Margin="0 0 20 0">
+                <PasswordBox x:Name="STC_PasswordPB" Password="{x:Bind Userinfo.StcUser.Password,Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="requiredTB"/>
+                <TextBlock x:Name="requiredTB" Text="*" Foreground="Red"   RelativePanel.AlignRightWithPanel="True"/>
+            </RelativePanel>
+            <TextBlock Text="邮箱:" HorizontalAlignment="Right" Margin="10" Grid.Row="7" Grid.Column="0"/>
+            <RelativePanel  Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0">
+                <TextBox x:Name="EmailTb" PlaceholderText="Email address" Text="{x:Bind Userinfo.Email,Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True"  RelativePanel.LeftOf="tb6"/>
+                <TextBlock x:Name="tb6" Text="*" Foreground="Red" RelativePanel.AlignRightWithPanel="True"/>
+            </RelativePanel>
+            <TextBlock Text="角色:" HorizontalAlignment="Right" Margin="10" Grid.Row="8" Grid.Column="0"/>
+            <GridView x:Name="roleGridview" ItemsSource="{x:Bind RoleList,Mode=OneWay}" Grid.Row="8" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsEnabled="False">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:RoleType">
+                        <CheckBox Content="{Binding }" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <TextBlock Grid.Row="9" Grid.Column="1" Text="{x:Bind ErrorMessage,Mode=OneWay}" Foreground="Red" TextWrapping="WrapWholeWords" 
+                   Visibility="Visible" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1"  Grid.Row="10">
+                <Button Content="保存" x:Name="submitBtn" Click="submitBtn_Click" Margin="0 0 20 0" Background="Green"/>
+                <Button Content="取消" x:Name="closeBtn" Click="closeBtn_Click" />
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</UserControl>

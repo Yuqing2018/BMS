@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="BackEndMS.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BackEndMS"
+    xmlns:control="using:BackEndMS.Controls"
+    xmlns:helper="using:BackEndMS.Helpers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="NavLinkItemTemplate" x:DataType="helper:Scenario">
+            <StackPanel Orientation="Horizontal" Margin="2,0,0,0">
+                <SymbolIcon Symbol="{x:Bind Symbol}" />
+                <TextBlock Text="{x:Bind Title}" Margin="24,0,0,0" VerticalAlignment="Center" />
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="{StaticResource SystemControlBackgroundBaseLowBrush}">
+        <SplitView x:Name="splitView" Grid.Row="1" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                    IsPaneOpen="False" OpenPaneLength="150" CompactPaneLength="50" DisplayMode="CompactInline" IsTabStop="False">
+            <SplitView.Pane>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <RelativePanel Grid.Row="0">
+                        <ToggleButton x:Name="toggleBtn" Style="{StaticResource SymbolButton}"  Click="toggleBtn_Click" VerticalAlignment="Top" 
+                                  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0" RelativePanel.AlignLeftWithPanel="True" Width="50">
+                            <ToggleButton.Content>
+                                <FontIcon x:Name="Hamburger" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Margin="0"/>
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <TextBlock Text="菜单" RelativePanel.RightOf="toggleBtn" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="20" Margin="10,0,0,0"/>
+                    </RelativePanel>
+                    <ListView x:Name="NavLinksList" Margin="0,12,0,0" SelectionMode="Single" Grid.Row="1"
+                                    VerticalAlignment="Stretch" SelectionChanged="NavLinksList_SelectionChanged" ItemsSource="{x:Bind NavLinks}"
+                                    ItemTemplate="{StaticResource NavLinkItemTemplate}" Loaded="NavLinksList_Loaded"/>
+
+                    <RelativePanel Grid.Row="2">
+                        <AppBarButton x:Name="settingSysBtn" Icon="Setting" LabelPosition="Collapsed" VerticalAlignment="Bottom" Content="Setting" RelativePanel.AlignLeftWithPanel="True" Width="50" Click="settingSysBtn_Click"/>
+                        <TextBlock Text="设置" RelativePanel.RightOf="settingSysBtn" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="20" Margin="10,0,0,0"/>
+                    </RelativePanel>
+                    
+                </Grid>
+            </SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <RelativePanel HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Stretch" Margin="0">
+                    <TextBlock x:Name="captionTb" Text="{Binding ElementName=NavLinksList,Path=SelectedItem.Title,Mode=OneWay}"  RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"
+                            Style="{StaticResource BaseTextBlockStyle}" FontSize="24"/>
+                    <!--<PersonPicture x:Name="personPic" Height="40" FontStretch="Undefined" ProfilePicture="https://docs.microsoft.com/en-us/windows/uwp/contacts-and-calendar/images/shoulder-tap-static-payload.png" RelativePanel.AlignRightWithPanel="True"/>-->
+                    <TextBlock x:Name="usernameTb"  RelativePanel.LeftOf="settingBtn" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="12 0">
+                        <Run Text="欢迎 " />
+                        <Run Text="{x:Bind Userinfo.Nickname,Mode=OneWay}" />
+                    </TextBlock>
+                    <!--<PersonPicture x:Name="personPic" DisplayName="{x:Bind Userinfo.Nickname,Mode=OneWay}" Height="48" RelativePanel.LeftOf="settingBtn" RelativePanel.AlignVerticalCenterWithPanel="True"/>-->
+                    <Button x:Name="settingBtn" Click="settingBtn_Click" Padding="0" Margin="5 0" Background="Transparent" BorderThickness="0"  RelativePanel.AlignRightWithPanel="True" Height="40" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <!--<Button.Content>
+                            <FontIcon x:Name="moreOp" FontFamily="Segoe MDL2 Assets" Glyph="&#xE712;"/>
+                        </Button.Content>-->
+                        <Button.Content>
+                            <Grid>
+                                <Ellipse Stretch="Uniform" Fill="Transparent" Stroke="Black"/>
+                                <SymbolIcon Symbol="Contact" Width="40" Height="40"/>
+                            </Grid>
+                        </Button.Content>
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="personalCenter" Text="Personal Center" Click="personalCenter_Click"/>
+                                <MenuFlyoutItem Text="LogOut" x:Name="logoutBtn" Click="logoutBtn_Click"/>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                </RelativePanel>
+                <Frame x:Name="ScenarioFrame" Grid.Row="1"/>
+            </Grid>
+        </SplitView>
+        <Grid Visibility="{Binding ElementName=progressRing,Path=IsActive,Converter={StaticResource VisibleIfTrue},Mode=OneWay}" Background="#333" Opacity="0.5">
+            <ProgressRing x:Name="progressRing" IsActive="False" Width="100" Height="100"/>
+        </Grid>
+    </Grid>
+</Page>
